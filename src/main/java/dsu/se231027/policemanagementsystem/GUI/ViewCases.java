@@ -32,7 +32,7 @@ public class ViewCases extends javax.swing.JFrame {
         ButtonCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         ButtonViewFir = new javax.swing.JButton();
-        ButtonViewComplain = new javax.swing.JButton();
+        ButtonViewComplaints = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,13 +99,14 @@ public class ViewCases extends javax.swing.JFrame {
             }
         });
 
-        ButtonViewComplain.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
-        ButtonViewComplain.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        ButtonViewComplain.setForeground(new java.awt.Color(255, 255, 255));
-        ButtonViewComplain.setText("View Complains");
-        ButtonViewComplain.addActionListener(new java.awt.event.ActionListener() {
+        ButtonViewComplaints.setBackground(new java.awt.Color(0, 204, 51));
+        ButtonViewComplaints.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ButtonViewComplaints.setForeground(new java.awt.Color(255, 255, 255));
+        ButtonViewComplaints.setText("View Complains");
+        ButtonViewComplaints.setMaximumSize(new java.awt.Dimension(200, 200));
+        ButtonViewComplaints.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonViewComplainActionPerformed(evt);
+                ButtonViewComplaintsActionPerformed(evt);
             }
         });
 
@@ -117,8 +118,8 @@ public class ViewCases extends javax.swing.JFrame {
                 .addGap(71, 71, 71)
                 .addComponent(ButtonViewFir, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonViewComplain, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79))
+                .addComponent(ButtonViewComplaints, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +127,7 @@ public class ViewCases extends javax.swing.JFrame {
                 .addGap(160, 160, 160)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonViewFir, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonViewComplain, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ButtonViewComplaints, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(192, Short.MAX_VALUE))
         );
 
@@ -165,16 +166,17 @@ public class ViewCases extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonCancelActionPerformed
 
     private void ButtonViewFirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewFirActionPerformed
-
-        new ViewFIR().setVisible(true);
         dispose();
+        new ViewFIR().setVisible(true);
+        
 
     }//GEN-LAST:event_ButtonViewFirActionPerformed
 
-    private void ButtonViewComplainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewComplainActionPerformed
-        new ViewComplains().setVisible(true);
+    private void ButtonViewComplaintsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewComplaintsActionPerformed
         dispose();
-    }//GEN-LAST:event_ButtonViewComplainActionPerformed
+        new ViewComplains().setVisible(true);
+        
+    }//GEN-LAST:event_ButtonViewComplaintsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,7 +215,7 @@ public class ViewCases extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCancel;
-    private javax.swing.JButton ButtonViewComplain;
+    private javax.swing.JButton ButtonViewComplaints;
     private javax.swing.JButton ButtonViewFir;
     private javax.swing.JPanel Header;
     private javax.swing.JLabel TitleText;
