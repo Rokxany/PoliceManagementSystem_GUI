@@ -35,10 +35,64 @@ public class ViewFIR extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        Header10 = new javax.swing.JPanel();
+        TitleText10 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        ButtonCancel10 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         FIRTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Header10.setBackground(java.awt.SystemColor.controlHighlight);
+        Header10.setPreferredSize(new java.awt.Dimension(708, 50));
+
+        TitleText10.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        TitleText10.setForeground(new java.awt.Color(10, 10, 10));
+        TitleText10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TitleText10.setText("FIR's");
+
+        jButton14.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        jButton14.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jButton14.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        jButton14.setText("X");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        ButtonCancel10.setText("Go Back");
+        ButtonCancel10.setOpaque(true);
+        ButtonCancel10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonCancel10ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Header10Layout = new javax.swing.GroupLayout(Header10);
+        Header10.setLayout(Header10Layout);
+        Header10Layout.setHorizontalGroup(
+            Header10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Header10Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(ButtonCancel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TitleText10, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
+                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        Header10Layout.setVerticalGroup(
+            Header10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Header10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Header10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TitleText10)
+                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonCancel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
 
         FIRTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -73,16 +127,26 @@ public class ViewFIR extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(45, 45, 45)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addComponent(Header10, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                    .addGap(12, 12, 12)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(99, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(Header10, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(406, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -99,6 +163,17 @@ public class ViewFIR extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+
+        dispose();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void ButtonCancel10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCancel10ActionPerformed
+
+        dispose();
+        new ViewCases().setVisible(true);
+    }//GEN-LAST:event_ButtonCancel10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,7 +211,31 @@ public class ViewFIR extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonCancel10;
+    private javax.swing.JButton ButtonCancel5;
+    private javax.swing.JButton ButtonCancel6;
+    private javax.swing.JButton ButtonCancel7;
+    private javax.swing.JButton ButtonCancel8;
+    private javax.swing.JButton ButtonCancel9;
     private javax.swing.JTable FIRTable;
+    private javax.swing.JPanel Header10;
+    private javax.swing.JPanel Header5;
+    private javax.swing.JPanel Header6;
+    private javax.swing.JPanel Header7;
+    private javax.swing.JPanel Header8;
+    private javax.swing.JPanel Header9;
+    private javax.swing.JLabel TitleText10;
+    private javax.swing.JLabel TitleText5;
+    private javax.swing.JLabel TitleText6;
+    private javax.swing.JLabel TitleText7;
+    private javax.swing.JLabel TitleText8;
+    private javax.swing.JLabel TitleText9;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

@@ -131,6 +131,11 @@ public class Dashboard extends javax.swing.JFrame {
         ButtonManageStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ButtonManageStaff.setForeground(new java.awt.Color(255, 255, 255));
         ButtonManageStaff.setText("Manage Staff");
+        ButtonManageStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonManageStaffActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -209,6 +214,11 @@ public class Dashboard extends javax.swing.JFrame {
         dispose();
         new ViewCases().setVisible(true);
     }//GEN-LAST:event_ButtonViewCasesActionPerformed
+
+    private void ButtonManageStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonManageStaffActionPerformed
+        dispose();
+        new ManageStaff().setVisible(true);
+    }//GEN-LAST:event_ButtonManageStaffActionPerformed
 
     /**
      * @param args the command line arguments
