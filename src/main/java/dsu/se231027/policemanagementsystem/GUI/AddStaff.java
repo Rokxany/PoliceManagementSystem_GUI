@@ -4,6 +4,14 @@
  */
 package dsu.se231027.policemanagementsystem.GUI;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author Hamza Nizamani
  */
 public class AddStaff extends javax.swing.JFrame {
-
+    String folder = "Staff";
     /**
      * Creates new form AddStaff
      */
@@ -201,15 +209,8 @@ public class AddStaff extends javax.swing.JFrame {
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveActionPerformed
           JOptionPane.showMessageDialog(this, "Name: "+TextStaffName.getText()+"\nGender: "+ComboGender.getSelectedItem()+"\nRole: "+ComboRole.getSelectedItem());
-//            SaveToFile();
-//        if(validateCNIC() && !TextAreaIncidentDesc.getText().isEmpty()) {
-//            LabelCNICValidator.setText(" ");
-//            
-//        }
-//        else {
-//            LabelCNICValidator.setText("Invalid CNIC!");
-//            JOptionPane.showMessageDialog(this, "Invalid CNIC, Please Enter Correct CNIC Number", "CNIC Format Error", JOptionPane.ERROR_MESSAGE);
-//        }
+            SaveToFile();
+        
     }//GEN-LAST:event_ButtonSaveActionPerformed
 
     /**
@@ -259,4 +260,58 @@ public class AddStaff extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+ private void SaveToFile() {
+
+        if(checkComplain()) {
+        File file = new File(folder + ".csv");
+            System.out.println("DEBUG 1");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true)))
+            
+        {
+            String StaffName = TextStaffName.getName();
+            String StaffGender = ComboGender.getSelectedItem().toString();
+            String StaffRole = ComboRole.getSelectedItem().toString();
+            long CaseNo = countLines();              
+            writer.append("\n"+ CaseNo + "," + StaffName +","+ StaffGender +","+ StaffRole);
+            writer.close();
+        }
+        catch(IOException io)
+        {
+            Logger.getLogger(RegisterComplaint.class.getName()).log(Level.SEVERE, null, io);
+        }
+        }
+        else {
+            System.out.println("Generating Default CSV File.");
+            File file = new File(folder + ".csv");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true)))
+            {
+                writer.append("Case No,Name,Gender,Role");
+                writer.close();
+                SaveToFile();
+            }
+            catch (IOException ex) {
+                Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private boolean checkComplain() {
+        File f = new File(folder +".csv");
+        return f.exists() && !f.isDirectory();
+    }
+    
+    private long countLines() {
+        String fileName = "Complain.csv";
+        long noOfLines = 0;
+
+        try(LineNumberReader lineNumberReader =
+            new LineNumberReader(new FileReader(new File(fileName)))) {
+            //Skip to last line
+                lineNumberReader.skip(Long.MAX_VALUE);
+                noOfLines = lineNumberReader.getLineNumber() + 1;
+}           catch (IOException ex) {
+                Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return noOfLines;
+    }
 }

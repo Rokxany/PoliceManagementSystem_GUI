@@ -88,7 +88,7 @@ public class ViewCases extends javax.swing.JFrame {
 
         jPanel1.setBackground(java.awt.SystemColor.control);
 
-        ButtonViewFir.setBackground(new java.awt.Color(99, 124, 233));
+        ButtonViewFir.setBackground(new java.awt.Color(51, 153, 255));
         ButtonViewFir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ButtonViewFir.setForeground(new java.awt.Color(255, 255, 255));
         ButtonViewFir.setText("View FIR");
@@ -117,7 +117,7 @@ public class ViewCases extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(ButtonViewFir, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addComponent(ButtonViewComplaints, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
@@ -154,7 +154,7 @@ public class ViewCases extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        
         dispose();
 
     }//GEN-LAST:event_jButton4ActionPerformed

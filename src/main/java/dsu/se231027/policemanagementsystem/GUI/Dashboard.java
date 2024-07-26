@@ -34,11 +34,12 @@ public class Dashboard extends javax.swing.JFrame {
         ButtonCriminalReport = new javax.swing.JButton();
         ButtonManageStaff = new javax.swing.JButton();
         ButtonViewCases = new javax.swing.JButton();
+        BackgroundImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Head.setBackground(java.awt.SystemColor.controlHighlight);
-
+        TitleText.setBackground(java.awt.SystemColor.control);
         TitleText.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         TitleText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TitleText.setText("Police Management System");
@@ -59,9 +60,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        Body.setBackground(java.awt.SystemColor.controlHighlight);
         Body.setLayout(new java.awt.BorderLayout());
 
+        TagTitleLabel.setBackground(java.awt.SystemColor.control);
         TagTitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TagTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TagTitleLabel.setText("Police Management System Admin Dashboard");
@@ -187,7 +188,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(Background, java.awt.BorderLayout.CENTER);
+        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 480));
+        getContentPane().add(BackgroundImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -257,6 +259,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
+    private javax.swing.JLabel BackgroundImage;
     private javax.swing.JPanel Body;
     private javax.swing.JButton ButtonCriminalReport;
     private javax.swing.JButton ButtonLodgeFir;

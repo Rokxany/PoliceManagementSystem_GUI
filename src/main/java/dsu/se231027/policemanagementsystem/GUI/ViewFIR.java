@@ -8,7 +8,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -16,15 +23,112 @@ import java.io.FileReader;
  * @author Hamza Nizamani
  */
 public class ViewFIR extends javax.swing.JFrame {
+    
+    private DefaultTableModel FIRModel;
+    
+    final private String defaultCSVPathFIR = "data.csv";
 
+    
+    public boolean debug = true;
     /**
      * Creates new form ViewFIR
      */
-    public ViewFIR() {
+    public ViewFIR() { // constructor
+        FIRModel = new DefaultTableModel();
         initComponents();
-        
+        startChecks();
+    }
+    
+    public final void startChecks() {
+        checkAndCreateFiles();
+        loadDefaultTable();
+    }
+    
+    private void loadDefaultTable() {
+        File defaultCSVPayroll = new File(defaultCSVPathFIR);
+        loadCSVFile(defaultCSVPayroll, FIRModel);
+    }
+    
+    private void checkAndCreateFiles() {
+        checkAndCreateFile(defaultCSVPathFIR, "Case No,Name,CNIC,Type,Date of Incident, Location, Description");
     }
 
+    private static void checkAndCreateFile(String filePath, String header) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(header);
+                System.out.println("File created: " + filePath);
+            } catch (IOException e) {
+                System.err.println("Error creating file: " + filePath);
+            }
+        } else {
+            System.out.println("File already exists: " + filePath);
+        }
+    }
+    
+    private void addNewRow(DefaultTableModel Model) {
+        Object[] emptyRow = new Object[Model.getColumnCount()];
+        Model.addRow(emptyRow);
+    }
+    private void saveCSVFile(File file, DefaultTableModel tableModel) {
+        try (PrintWriter writer = new PrintWriter(file)) {
+            for (int i = 0; i < tableModel.getColumnCount(); i++) {
+                writer.print(tableModel.getColumnName(i));
+                if (i < tableModel.getColumnCount() - 1) {
+                    writer.print(",");
+                }
+            }
+            writer.println();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                    if (tableModel.getValueAt(i, j) != null) {
+                        writer.print(tableModel.getValueAt(i, j));
+                    } else {
+                        writer.print("");
+                    }
+                    if (j < tableModel.getColumnCount() - 1) {
+                        writer.print(",");
+                    }
+                }
+                writer.println();
+            }
+            JOptionPane.showMessageDialog(this, "Updated Sucessfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving the CSV file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void loadCSVFile(File file, DefaultTableModel DefRatesModel) {
+        
+        DefRatesModel.setColumnCount(0); // Clear previous columns
+        DefRatesModel.setRowCount(0); // Clear previous data rows
+
+        try (Scanner scanner = new Scanner(file)) {
+            if (scanner.hasNextLine()) {
+                String[] tableNames = scanner.nextLine().split(",");
+                for (String tableName : tableNames) {
+                    DefRatesModel.addColumn(tableName);
+                    if (debug)
+                        System.out.println(tableName);
+                }
+            }
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] data = line.split(",");
+                DefRatesModel.addRow(data);
+                if (debug)
+                    System.out.println("->" + line);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error reading the CSV file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,8 +143,9 @@ public class ViewFIR extends javax.swing.JFrame {
         TitleText10 = new javax.swing.JLabel();
         jButton14 = new javax.swing.JButton();
         ButtonCancel10 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        FIRTable = new javax.swing.JTable();
+        ButtonMakeFile = new javax.swing.JButton();
+        EmpDataTable = new javax.swing.JTable();
+        ButtonAddRow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,42 +199,38 @@ public class ViewFIR extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        FIRTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Case No", "Name", "CNIC", "FIR Type", "Date", "Location", "Description"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        ButtonMakeFile.setText("Make File");
+        ButtonMakeFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonMakeFileActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(FIRTable);
+
+        EmpDataTable.setModel(FIRModel);
+        EmpDataTable.setIntercellSpacing(new java.awt.Dimension(2, 2));
+
+        ButtonAddRow.setText("Add Row");
+        ButtonAddRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddRowActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(ButtonAddRow)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonMakeFile, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(EmpDataTable, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(12, 12, 12)
@@ -139,9 +240,13 @@ public class ViewFIR extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(99, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52))
+                .addContainerGap(123, Short.MAX_VALUE)
+                .addComponent(EmpDataTable, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonMakeFile)
+                    .addComponent(ButtonAddRow))
+                .addGap(13, 13, 13))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -174,6 +279,17 @@ public class ViewFIR extends javax.swing.JFrame {
         dispose();
         new ViewCases().setVisible(true);
     }//GEN-LAST:event_ButtonCancel10ActionPerformed
+
+    private void ButtonMakeFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMakeFileActionPerformed
+
+        File file = new File("data.csv");
+        loadCSVFile(file, FIRModel);
+    }//GEN-LAST:event_ButtonMakeFileActionPerformed
+
+    private void ButtonAddRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddRowActionPerformed
+
+        addNewRow(FIRModel);
+    }//GEN-LAST:event_ButtonAddRowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,33 +327,14 @@ public class ViewFIR extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAddRow;
     private javax.swing.JButton ButtonCancel10;
-    private javax.swing.JButton ButtonCancel5;
-    private javax.swing.JButton ButtonCancel6;
-    private javax.swing.JButton ButtonCancel7;
-    private javax.swing.JButton ButtonCancel8;
-    private javax.swing.JButton ButtonCancel9;
-    private javax.swing.JTable FIRTable;
+    private javax.swing.JButton ButtonMakeFile;
+    private javax.swing.JTable EmpDataTable;
     private javax.swing.JPanel Header10;
-    private javax.swing.JPanel Header5;
-    private javax.swing.JPanel Header6;
-    private javax.swing.JPanel Header7;
-    private javax.swing.JPanel Header8;
-    private javax.swing.JPanel Header9;
     private javax.swing.JLabel TitleText10;
-    private javax.swing.JLabel TitleText5;
-    private javax.swing.JLabel TitleText6;
-    private javax.swing.JLabel TitleText7;
-    private javax.swing.JLabel TitleText8;
-    private javax.swing.JLabel TitleText9;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
    

@@ -5,6 +5,14 @@
 package dsu.se231027.policemanagementsystem.GUI;
 
 import java.awt.TextComponent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -14,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author Hamza Nizamani
  */
 public class RegisterComplaint extends javax.swing.JFrame {
-
+     String folder = "Complains";
     /**
      * Creates new form RegisterComplaint
      */
@@ -234,7 +242,6 @@ public class RegisterComplaint extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(255, 102, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("X");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,6 +342,8 @@ public class RegisterComplaint extends javax.swing.JFrame {
         if(validateCNIC()) {
             LabelCNICValidator.setText(" ");
             JOptionPane.showMessageDialog(this, "Name: "+TextName.getText()+"\nCNIC: "+TextCNIC.getText()+"\nPhone Number : "+TextPhoneNumber.getText()+"\nEmail Address: "+TextEmailAddress.getText()+"\nAddress: "+TextAddress.getText()+"\nCity: "+ComboCity.getSelectedItem()+"\nComplaint Type: "+ComboComplaintType.getSelectedItem()+"\nComplaint Details: "+TextComplaintDetails.getText());
+             SaveToFile();
+
         }
         else {
             LabelCNICValidator.setText("Invalid CNIC!");
@@ -401,4 +410,64 @@ public class RegisterComplaint extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+    private void SaveToFile() {
+
+        if(checkComplain()) {
+        File file = new File(folder + ".csv");
+            System.out.println("DEBUG 1");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true)))
+            
+        {
+            String ComplainName = TextName.getName();
+            String ComplainCnic = TextCNIC.getText();
+            String ComplainPhoneNum = TextPhoneNumber.getText();
+            String ComplainEmail = TextEmailAddress.getText();
+            String ComplainAddress = TextAddress.getText();
+            String ComplainCity = ComboCity.getSelectedItem().toString();
+            String ComplainComplaintType = ComboComplaintType.getSelectedItem().toString();
+            String ComplainDetails = TextComplaintDetails.getText();
+            long CaseNo = countLines();              
+            writer.append("\n"+ CaseNo + "," + ComplainName +","+ ComplainCnic +","+ ComplainPhoneNum +","+ ComplainEmail +","+ ComplainAddress +","+ ComplainCity+","+ ComplainComplaintType+","+ ComplainDetails);
+            writer.close();
+        }
+        catch(IOException io)
+        {
+            Logger.getLogger(RegisterComplaint.class.getName()).log(Level.SEVERE, null, io);
+        }
+        }
+        else {
+            System.out.println("Generating Default CSV File.");
+            File file = new File(folder + ".csv");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true)))
+            {
+                writer.append("Case No,Name,CNIC,Type,Phone Number, Email, Address, City, Complaint Type, Complain Details");
+                writer.close();
+                SaveToFile();
+            }
+            catch (IOException ex) {
+                Logger.getLogger(RegisterFIR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private boolean checkComplain() {
+        File f = new File(folder +".csv");
+        return f.exists() && !f.isDirectory();
+    }
+    
+    private long countLines() {
+        String fileName = "Complain.csv";
+        long noOfLines = -1;
+
+        try(LineNumberReader lineNumberReader =
+            new LineNumberReader(new FileReader(new File(fileName)))) {
+            //Skip to last line
+                lineNumberReader.skip(Long.MAX_VALUE);
+                noOfLines = lineNumberReader.getLineNumber() + 1;
+}           catch (IOException ex) {
+                Logger.getLogger(RegisterFIR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return noOfLines;
+    }
 }
+

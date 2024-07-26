@@ -4,19 +4,120 @@
  */
 package dsu.se231027.policemanagementsystem.GUI;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Hamza Nizamani
  */
 public class ViewComplains extends javax.swing.JFrame {
-
+     private final DefaultTableModel ComplainModel;
+    
+    final private String defaultCSVPathFIR = "Complains.csv";
+    
+    public boolean debug = true;
     /**
      * Creates new form ViewComplains
      */
     public ViewComplains() {
+        
+        ComplainModel = new DefaultTableModel();
+        checkAndCreateFiles();
+        loadDefaultTable();
         initComponents();
     }
+    private void loadDefaultTable() {
+        File defaultCSVPayroll = new File(defaultCSVPathFIR);
+        loadCSVFile(defaultCSVPayroll, ComplainModel);
+    }
+    
+    private void checkAndCreateFiles() {
+        checkAndCreateFile(defaultCSVPathFIR, "Case No,Name,CNIC,Type,Phone Number, Email, Address, City, Complaint Type, Complain Details");
+    }
 
+    private static void checkAndCreateFile(String filePath, String header) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(header);
+                System.out.println("File created: " + filePath);
+            } catch (IOException e) {
+                System.err.println("Error creating file: " + filePath);
+            }
+        } else {
+            System.out.println("File already exists: " + filePath);
+        }
+    }
+    
+    private void addNewRow(DefaultTableModel Model) {
+        Object[] emptyRow = new Object[Model.getColumnCount()];
+        Model.addRow(emptyRow);
+    }
+    private void saveCSVFile(File file, DefaultTableModel tableModel) {
+        try (PrintWriter writer = new PrintWriter(file)) {
+            for (int i = 0; i < tableModel.getColumnCount(); i++) {
+                writer.print(tableModel.getColumnName(i));
+                if (i < tableModel.getColumnCount() - 1) {
+                    writer.print(",");
+                }
+            }
+            writer.println();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                    if (tableModel.getValueAt(i, j) != null) {
+                        writer.print(tableModel.getValueAt(i, j));
+                    } else {
+                        writer.print("");
+                    }
+                    if (j < tableModel.getColumnCount() - 1) {
+                        writer.print(",");
+                    }
+                }
+                writer.println();
+            }
+            JOptionPane.showMessageDialog(this, "Updated Sucessfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving the CSV file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void loadCSVFile(File file, DefaultTableModel DefRatesModel) {
+        
+        DefRatesModel.setColumnCount(0); // Clear previous columns
+        DefRatesModel.setRowCount(0); // Clear previous data rows
+
+        try (Scanner scanner = new Scanner(file)) {
+            if (scanner.hasNextLine()) {
+                String[] tableNames = scanner.nextLine().split(",");
+                for (String tableName : tableNames) {
+                    DefRatesModel.addColumn(tableName);
+                    if (debug)
+                        System.out.println(tableName);
+                }
+            }
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] data = line.split(",");
+                DefRatesModel.addRow(data);
+                if (debug)
+                    System.out.println("->" + line);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error reading the CSV file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,6 +132,8 @@ public class ViewComplains extends javax.swing.JFrame {
         TitleText5 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         ButtonCancel5 = new javax.swing.JButton();
+        EmpDataTable = new javax.swing.JTable();
+        ButtonAddRow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,21 +187,40 @@ public class ViewComplains extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        EmpDataTable.setModel(ComplainModel);
+
+        ButtonAddRow.setText("Add Row");
+        ButtonAddRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddRowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Header5, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ButtonAddRow)
+                    .addComponent(EmpDataTable, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Header5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(400, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(EmpDataTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ButtonAddRow)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,6 +254,10 @@ public class ViewComplains extends javax.swing.JFrame {
         dispose();
         new ViewCases().setVisible(true);
     }//GEN-LAST:event_ButtonCancel5ActionPerformed
+
+    private void ButtonAddRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddRowActionPerformed
+       addNewRow(ComplainModel);
+    }//GEN-LAST:event_ButtonAddRowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,29 +295,11 @@ public class ViewComplains extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCancel;
-    private javax.swing.JButton ButtonCancel1;
-    private javax.swing.JButton ButtonCancel2;
-    private javax.swing.JButton ButtonCancel3;
-    private javax.swing.JButton ButtonCancel4;
+    private javax.swing.JButton ButtonAddRow;
     private javax.swing.JButton ButtonCancel5;
-    private javax.swing.JPanel Header;
-    private javax.swing.JPanel Header1;
-    private javax.swing.JPanel Header2;
-    private javax.swing.JPanel Header3;
-    private javax.swing.JPanel Header4;
+    private javax.swing.JTable EmpDataTable;
     private javax.swing.JPanel Header5;
-    private javax.swing.JLabel TitleText;
-    private javax.swing.JLabel TitleText1;
-    private javax.swing.JLabel TitleText2;
-    private javax.swing.JLabel TitleText3;
-    private javax.swing.JLabel TitleText4;
     private javax.swing.JLabel TitleText5;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
