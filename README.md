@@ -5,9 +5,6 @@
 
 The Police Management System GUI is an intuitive application designed to streamline police department operations. This system allows users to report incidents, register complaints, and file FIRs (First Information Reports). Additionally, it enables the management of staff members, providing a centralized platform to view and manage all records efficiently. The user-friendly interface ensures easy navigation and effective handling of police records, enhancing the overall productivity of the police department.
 
->[!WARNING]
-Warning
-This project is not a complete project. It is still under construction and subject to changes.
 
 **Features**:
 - Incident Reporting: Log incidents and register complaints.
@@ -15,7 +12,7 @@ This project is not a complete project. It is still under construction and subje
 - Staff Management: Add and manage police staff members.
 - Record Viewing: View and search through all records.
 
-# Overview:
+> Overview:
 
 Upon opening the Police Management System, you are greeted with a comprehensive dashboard that provides quick access to all main functionalities of the system. The dashboard includes:
 
@@ -25,7 +22,7 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 - **Manage Staff:** Add, update, and delete staff member information.
 - **View Cases:** View and manage all the cases filed in the system.
 
-># Technologies Used:
+> Technologies Used:
 
 - **Programming Language:** Java
 
@@ -35,3 +32,10 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 If you have any questions or feedback, feel free to reach out to:
 
 Rokxany: [My GitHub Page](https://github.com/Rokxany)
+
+
+>[!WARNING]
+Warning
+This project is not a complete project. It is still under construction and subject to changes.
+
+Thank you for using the Police Management System GUI!
