@@ -30,4 +30,4 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 # Contact
 If you have any questions or feedback, feel free to reach out to:
 
-Rokxany: [GitHub Pages](https://pages.github.com/Rokxany)
+Rokxany: [My GitHub Page](https://pages.github.com/Rokxany)
