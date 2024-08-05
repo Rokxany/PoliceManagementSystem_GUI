@@ -25,3 +25,8 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 - **Programming Language:** Java
 
 - **GUI Framework:** Swing
+
+# Contact
+If you have any questions or feedback, feel free to reach out to:
+
+Rokxany: [Github Profile] (https://github.com/Rokxany)
