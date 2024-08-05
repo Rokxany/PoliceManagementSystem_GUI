@@ -20,7 +20,8 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 - **Manage Staff:** Add, update, and delete staff member information.
 - **View Cases:** View and manage all the cases filed in the system.
 
->># Technologies Used:
+># Technologies Used:
 
 **- Programming Language:** Java
+
 **- GUI Framework:** Swing
