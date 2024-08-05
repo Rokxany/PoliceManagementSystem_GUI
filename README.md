@@ -22,6 +22,6 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 
 ># Technologies Used:
 
-**- Programming Language:** Java
+- **Programming Language:** Java
 
-**- GUI Framework:** Swing
+- **GUI Framework:** Swing
