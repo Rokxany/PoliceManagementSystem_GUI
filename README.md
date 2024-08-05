@@ -28,14 +28,15 @@ Upon opening the Police Management System, you are greeted with a comprehensive 
 
 - **GUI Framework:** Swing
 
+
+>[!WARNING]
+Warning
+This project is not a complete project. It is still under construction and subject to changes.
+
 # Contact
 If you have any questions or feedback, feel free to reach out to:
 
 Rokxany: [My GitHub Page](https://github.com/Rokxany)
 
-
->[!WARNING]
-Warning
-This project is not a complete project. It is still under construction and subject to changes.
 
 Thank you for using the Police Management System GUI!
